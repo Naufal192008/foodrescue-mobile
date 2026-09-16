@@ -9,6 +9,7 @@ import 'features/auth/controllers/auth_controller.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
+  //lah
   runApp(const ProviderScope(child: FoodRescueApp()));
 }
 
