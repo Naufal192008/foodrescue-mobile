@@ -126,7 +126,7 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
     if (ok == true && mounted) {
       await ref.read(authControllerProvider.notifier).logout();
       if (mounted) {
-        context.go('/login');
+        GoRouter.of(context).go('/login');
       }
     }
   }

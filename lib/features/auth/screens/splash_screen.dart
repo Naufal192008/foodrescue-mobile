@@ -102,7 +102,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             height: 112,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.85),
+                              color: Colors.white.withValues(alpha: 0.85),
                               borderRadius: BorderRadius.circular(30),
                               boxShadow: const [
                                 BoxShadow(
@@ -162,7 +162,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             height: 2.5,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),

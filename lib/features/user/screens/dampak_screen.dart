@@ -83,8 +83,6 @@ class _DampakScreenState extends ConsumerState<DampakScreen> {
     return ((1 - _spent / _value) * 100).clamp(0, 99);
   }
 
-  int get _proteinG => ((_impact?.totalFoodSavedKg ?? 0) * 80).round();
-
   String get _tier {
     final kg = _impact?.totalFoodSavedKg ?? 0;
     if (kg >= 40) return 'Titanium';
@@ -143,6 +141,8 @@ class _DampakScreenState extends ConsumerState<DampakScreen> {
         _periodChips(),
         const SizedBox(height: 16),
         _heroCard(kg: kg, co2: co2),
+        const SizedBox(height: 14),
+        _faktaCard(impact),
         const SizedBox(height: 14),
         _arbitraseCard(),
         const SizedBox(height: 14),
@@ -289,10 +289,55 @@ class _DampakScreenState extends ConsumerState<DampakScreen> {
           ),
           const SizedBox(height: 14),
           Text(
-            'Menghindari ${co2.toStringAsFixed(1)} kg CO2e, '
-            'setara ${(co2 / 21.3).toStringAsFixed(0)} pohon mangrove.',
+            '${co2.toStringAsFixed(1)} kg CO2e terhindar berdasarkan perhitungan sistem.',
             style: AppTheme.bodySm(color: Colors.white),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _faktaCard(ImpactSummaryModel impact) {
+    final completed = _orders.where((o) => o.orderStatus == 'selesai').length;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.fact_check, color: AppColors.primary),
+              const SizedBox(width: 8),
+              Text('FAKTA BERDASARKAN DATA', style: AppTheme.labelCaps(color: AppColors.primary)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _factRow('Pesanan tercatat', '${impact.totalOrders} pesanan'),
+          _factRow('Makanan terselamatkan', '${impact.totalFoodSavedKg.toStringAsFixed(1)} kg'),
+          _factRow('Emisi terhindar', '${impact.estimatedCo2SavedKg.toStringAsFixed(1)} kg CO2e'),
+          _factRow('Pesanan selesai di perangkat', '$completed pesanan'),
+          const SizedBox(height: 8),
+          Text(
+            'Sumber: ringkasan dampak dan riwayat pesanan akunmu. Nilai CO2e mengikuti kalkulasi backend Food Rescue.',
+            style: AppTheme.labelCaps(color: AppColors.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _factRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Expanded(child: Text(label, style: AppTheme.bodySm(color: AppColors.onSurfaceVariant))),
+          Text(value, style: AppTheme.labelMd(color: AppColors.onSurface)),
         ],
       ),
     );
@@ -368,7 +413,7 @@ class _DampakScreenState extends ConsumerState<DampakScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'NUTRISI YANG DAPAT',
+            'RINGKASAN PESANAN',
             style: AppTheme.labelCaps(color: AppColors.outline),
           ),
           const SizedBox(height: 12),
@@ -381,7 +426,9 @@ class _DampakScreenState extends ConsumerState<DampakScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            '$_proteinG g protein · ${_impact?.totalOrders ?? 0} pesanan · nol terbuang',
+            '${_impact?.totalOrders ?? 0} pesanan tercatat · '
+            '${_orders.where((o) => o.orderStatus == 'selesai').length} selesai · '
+            '${Fmt.money(_impact?.totalMoneySaved ?? 0)} nilai yang dihemat',
             style: AppTheme.bodySm(color: AppColors.onSurfaceVariant),
           ),
         ],

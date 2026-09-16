@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,6 +28,10 @@ class _AuthScreenState extends ConsumerState<LoginScreen> {
   bool _obscure = true;
   bool _agree = false;
   late String _selectedRole;
+  final _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+    serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'],
+  );
 
   static const _roles = [
     (value: 'user', label: 'Rescuer (Konsumen)', desc: 'Beli & selamatkan surplus makanan lezat diskon s/d 70%.', icon: Icons.eco),
@@ -81,6 +87,40 @@ class _AuthScreenState extends ConsumerState<LoginScreen> {
           ),
         );
     }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final serverClientId = dotenv.env['GOOGLE_SERVER_CLIENT_ID'];
+    if (serverClientId == null || serverClientId.isEmpty) {
+      _showError('Google Sign-In belum dikonfigurasi. Isi GOOGLE_SERVER_CLIENT_ID di file .env.');
+      return;
+    }
+    try {
+      final account = await _googleSignIn.signIn();
+      if (account == null || !mounted) return;
+      final authentication = await account.authentication;
+      final idToken = authentication.idToken;
+      if (idToken == null || idToken.isEmpty) {
+        _showError('Token Google tidak tersedia. Periksa OAuth Client ID Android dan Web.');
+        return;
+      }
+      await ref.read(authControllerProvider.notifier).googleSignIn(idToken);
+      if (!mounted) return;
+      final state = ref.read(authControllerProvider);
+      if (state.isAuthenticated) {
+        context.go(_homeForRole(state.user?.role));
+      } else if (state.error != null) {
+        _showError(state.error!);
+      }
+    } catch (error) {
+      if (mounted) _showError('Login Google gagal: $error');
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message), backgroundColor: AppColors.error));
   }
 
   String _homeForRole(String? role) {
@@ -149,7 +189,13 @@ class _AuthScreenState extends ConsumerState<LoginScreen> {
                         Expanded(child: _label('Kata Sandi')),
                         if (_mode == AuthMode.login)
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Fitur reset kata sandi akan dikirim melalui email setelah endpoint pemulihan aktif.'),
+                                ),
+                              );
+                            },
                             child: Text(
                               'Lupa Kata Sandi?',
                               style: AppTheme.labelMd(color: AppColors.secondary),
@@ -327,15 +373,7 @@ class _AuthScreenState extends ConsumerState<LoginScreen> {
     return OutlinedButton.icon(
       onPressed: isLoading
           ? null
-          : () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Google Sign-In belum dikonfigurasi di perangkat ini. Gunakan email untuk demo.',
-                  ),
-                ),
-              );
-            },
+          : _signInWithGoogle,
       icon: const SizedBox(
         width: 20,
         height: 20,

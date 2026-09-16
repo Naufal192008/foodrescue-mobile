@@ -354,8 +354,65 @@ class _KomunitasScreenState extends ConsumerState<KomunitasScreen> {
       ];
     }
     return [
+      _communitySummary(),
+      const SizedBox(height: 14),
       ..._posts.map((p) => _postCard(p)),
     ];
+  }
+
+  Widget _communitySummary() {
+    final totalKg = _posts.fold<double>(
+      0,
+      (sum, post) => sum + (post.quantityKg ?? 0),
+    );
+    final beneficiaries = _posts
+        .map((post) => post.beneficiaryCount)
+        .whereType<int>()
+        .fold<int>(0, (sum, value) => sum + value);
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.onPrimaryFixedVariant,
+        borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('RINGKASAN PENYALURAN', style: AppTheme.labelCaps(color: AppColors.primaryFixed)),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _communityMetric('${_posts.length}', 'kanal aktif'),
+              const SizedBox(width: 12),
+              _communityMetric(totalKg > 0 ? '${totalKg.toStringAsFixed(1)} kg' : '-', 'pangan tercatat'),
+              const SizedBox(width: 12),
+              _communityMetric(beneficiaries > 0 ? '$beneficiaries' : '-', 'penerima'),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Angka berat dan penerima hanya ditampilkan jika dikirim oleh kanal komunitas.',
+            style: AppTheme.labelCaps(color: AppColors.primaryFixedDim),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _communityMetric(String value, String label) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(value, style: AppTheme.metricSm(color: AppColors.primaryFixed)),
+          ),
+          Text(label, style: AppTheme.bodySm(color: AppColors.primaryFixedDim)),
+        ],
+      ),
+    );
   }
 
   Widget _postCard(CommunityPostCardModel p) {
@@ -418,6 +475,19 @@ class _KomunitasScreenState extends ConsumerState<KomunitasScreen> {
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.bodyLg().copyWith(fontWeight: FontWeight.w700),
                 ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 4,
+                  children: [
+                    if (p.targetLocation != null && p.targetLocation!.isNotEmpty)
+                      _postMeta(Icons.location_on, p.targetLocation!),
+                    if (p.quantityKg != null)
+                      _postMeta(Icons.scale, '${p.quantityKg!.toStringAsFixed(1)} kg'),
+                    if (p.createdAt != null)
+                      _postMeta(Icons.schedule, Fmt.dateTime(p.createdAt!)),
+                  ],
+                ),
                 if (p.listingDescription != null &&
                     p.listingDescription!.isNotEmpty) ...[
                   const SizedBox(height: 6),
@@ -478,6 +548,17 @@ class _KomunitasScreenState extends ConsumerState<KomunitasScreen> {
       color: AppColors.primaryFixed.withValues(alpha: 0.15),
       alignment: Alignment.center,
       child: const Icon(Icons.restaurant_menu, color: AppColors.primary, size: 40),
+    );
+  }
+
+  Widget _postMeta(IconData icon, String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 14, color: AppColors.primary),
+        const SizedBox(width: 4),
+        Text(text, style: AppTheme.labelCaps(color: AppColors.onSurfaceVariant)),
+      ],
     );
   }
 }

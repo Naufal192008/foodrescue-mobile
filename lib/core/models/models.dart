@@ -233,7 +233,7 @@ class FoodListingModel {
       status: o['status'] as String? ?? json['status'] as String? ?? 'active',
       tokoName: o['toko_name'] as String? ?? json['toko_name'] as String?,
       address: o['address'] as String? ?? json['address'] as String?,
-      distanceKm: dist == null ? null : dist.toStringAsFixed(1),
+      distanceKm: dist?.toStringAsFixed(1),
     );
   }
 }
@@ -250,6 +250,7 @@ class OrderModel {
   final String paymentStatus;
   final String orderStatus;
   final String confirmationCode;
+  final DateTime? createdAt;
   final String? completedAt;
   final FoodListingModel? listing;
   final String? pickupAddress;
@@ -267,6 +268,7 @@ class OrderModel {
     required this.paymentStatus,
     required this.orderStatus,
     required this.confirmationCode,
+    this.createdAt,
     this.completedAt,
     this.listing,
     this.pickupAddress,
@@ -285,6 +287,7 @@ class OrderModel {
         paymentStatus: json['payment_status'] as String? ?? 'unpaid',
         orderStatus: json['order_status'] as String? ?? 'pending',
         confirmationCode: json['confirmation_code'] as String? ?? '',
+        createdAt: _parseDate(json['created_at'] ?? json['order_date'] ?? json['ordered_at']),
         completedAt: json['completed_at'] as String?,
         listing: json['listing'] is Map<String, dynamic>
             ? FoodListingModel.fromJson(json['listing'] as Map<String, dynamic>)
@@ -292,6 +295,10 @@ class OrderModel {
         pickupAddress: json['pickup_address'] as String?,
         raw: json,
       );
+
+  static DateTime? _parseDate(dynamic value) {
+    return value is String ? DateTime.tryParse(value) : null;
+  }
 
   bool get isPickupWindowOver {
     final endRaw = listing?.pickupEndTime;
@@ -491,6 +498,9 @@ class CommunityPostCardModel {
   final String listingName;
   final String? listingPhoto;
   final String? listingDescription;
+  final double? quantityKg;
+  final int? beneficiaryCount;
+  final String? targetLocation;
   final DateTime? createdAt;
 
   CommunityPostCardModel({
@@ -503,6 +513,9 @@ class CommunityPostCardModel {
     required this.listingName,
     this.listingPhoto,
     this.listingDescription,
+    this.quantityKg,
+    this.beneficiaryCount,
+    this.targetLocation,
     this.createdAt,
   });
 
@@ -517,6 +530,10 @@ class CommunityPostCardModel {
         listingName: json['listing_name'] as String? ?? '',
         listingPhoto: json['listing_photo'] as String?,
         listingDescription: json['listing_description'] as String?,
+        quantityKg: (json['quantity_kg'] as num?)?.toDouble(),
+        beneficiaryCount: (json['beneficiary_count'] as num?)?.toInt(),
+        targetLocation: json['target_location'] as String? ??
+          json['target_area'] as String?,
         createdAt: json['created_at'] is String
             ? DateTime.tryParse(json['created_at'] as String)
             : null,

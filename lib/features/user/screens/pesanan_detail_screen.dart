@@ -332,17 +332,17 @@ class _PesananDetailScreenState extends ConsumerState<PesananDetailScreen> {
             ),
           ),
         ),
-        child: const Text(
-          'Lacak Kurir',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-        ),
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+        ),
+        child: const Text(
+          'Lacak Kurir',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
     );
@@ -611,11 +611,11 @@ class _PesananDetailScreenState extends ConsumerState<PesananDetailScreen> {
                       await _copyCode();
                       _nag('Kode ${_order.confirmationCode} Disalin');
                     },
-                    child: const Text('Salin Kode'),
                     style: OutlinedButton.styleFrom(
                       shape: const StadiumBorder(),
                       side: const BorderSide(color: AppColors.outline),
                     ),
+                    child: const Text('Salin Kode'),
                   ),
                 ),
               ),
@@ -625,12 +625,12 @@ class _PesananDetailScreenState extends ConsumerState<PesananDetailScreen> {
                   height: 44,
                   child: FilledButton(
                     onPressed: () => setState(() => _showQr = !_showQr),
-                    child: Text(_showQr ? 'Tutup QR' : 'Tampilkan QR'),
                     style: FilledButton.styleFrom(
                       shape: const StadiumBorder(),
                       backgroundColor: AppColors.primary.withValues(alpha: 0.10),
                       foregroundColor: AppColors.primary,
                     ),
+                    child: Text(_showQr ? 'Tutup QR' : 'Tampilkan QR'),
                   ),
                 ),
               ),
@@ -1207,11 +1207,11 @@ class _PesananDetailScreenState extends ConsumerState<PesananDetailScreen> {
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => ChatScreen(order: _order)),
                   ),
-                  child: Text(_kurir && _paid ? 'Chat Kurir' : 'Hubungi Restoran'),
                   style: OutlinedButton.styleFrom(
                     shape: const StadiumBorder(),
                     side: const BorderSide(color: AppColors.outline),
                   ),
+                  child: Text(_kurir && _paid ? 'Chat Kurir' : 'Hubungi Restoran'),
                 ),
               ),
             ),
@@ -1223,11 +1223,11 @@ class _PesananDetailScreenState extends ConsumerState<PesananDetailScreen> {
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => ChatScreen(order: _order)),
                   ),
-                  child: const Text('Bantuan Live'),
                   style: OutlinedButton.styleFrom(
                     shape: const StadiumBorder(),
                     side: const BorderSide(color: AppColors.outline),
                   ),
+                  child: const Text('Bantuan Live'),
                 ),
               ),
             ),

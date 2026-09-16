@@ -67,6 +67,7 @@ class OrderController extends StateNotifier<OrderState> {
         'payment_status': 'unpaid',
         'order_status': 'menunggu_pickup',
         'confirmation_code': res['confirmation_code'] ?? '',
+        'created_at': DateTime.now().toIso8601String(),
         'listing': listing,
       });
       state = state.copyWith(
@@ -137,6 +138,7 @@ extension _OrderHelpers on OrderModel {
       paymentStatus: paymentStatus,
       orderStatus: orderStatus,
       confirmationCode: confirmationCode,
+      createdAt: createdAt,
       completedAt: completedAt,
       listing: listing,
       pickupAddress: pickupAddress,

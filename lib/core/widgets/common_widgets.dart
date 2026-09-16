@@ -99,7 +99,7 @@ class NetworkImageOrPlaceholder extends StatelessWidget {
       return Container(
         width: width,
         height: height,
-        color: AppColors.primaryFixed.withOpacity(0.15),
+        color: AppColors.primaryFixed.withValues(alpha: 0.15),
         child: const Icon(
           Icons.restaurant_menu,
           size: 48,
@@ -115,7 +115,7 @@ class NetworkImageOrPlaceholder extends StatelessWidget {
       placeholder: (c, _) => Container(
         width: width,
         height: height,
-        color: AppColors.primaryFixed.withOpacity(0.1),
+        color: AppColors.primaryFixed.withValues(alpha: 0.1),
         child: const Center(
           child: CircularProgressIndicator(strokeWidth: 2),
         ),
@@ -123,7 +123,7 @@ class NetworkImageOrPlaceholder extends StatelessWidget {
       errorWidget: (c, _, __) => Container(
         width: width,
         height: height,
-        color: AppColors.primaryFixed.withOpacity(0.15),
+        color: AppColors.primaryFixed.withValues(alpha: 0.15),
         child: const Icon(
           Icons.broken_image_outlined,
           size: 40,

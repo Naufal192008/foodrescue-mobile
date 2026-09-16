@@ -436,7 +436,7 @@ class _LacakPengantaranScreenState extends ConsumerState<LacakPengantaranScreen>
                       const Icon(Icons.timer_outlined, size: 13, color: Colors.white),
                       const SizedBox(width: 4),
                       Text(
-                        'ETA ${_etaClock}',
+                        'ETA $_etaClock',
                         style: AppTheme.labelCaps(
                           color: Colors.white,
                         ).copyWith(fontSize: 10, fontWeight: FontWeight.w700),
@@ -568,9 +568,9 @@ class _LacakPengantaranScreenState extends ConsumerState<LacakPengantaranScreen>
           const SizedBox(height: 6),
           Text(
             km != null
-                ? 'Kurir akan tiba ~${_kecepatan} menit lagi '
+                ? 'Kurir akan tiba ~$_kecepatan menit lagi '
                     '• berjarak ${_fmtKm(km)} dari lokasimu.'
-                : 'Kurir akan tiba ~${_kecepatan} menit lagi sesuai rute optimal.',
+                : 'Kurir akan tiba ~$_kecepatan menit lagi sesuai rute optimal.',
             style: AppTheme.bodySm(color: AppColors.onSurfaceVariant),
             textAlign: TextAlign.center,
           ),
@@ -811,12 +811,12 @@ class _LacakPengantaranScreenState extends ConsumerState<LacakPengantaranScreen>
                         builder: (_) => ChatScreen(order: widget.order),
                       ),
                     ),
-                    child: const Text('Hubungi Kurir'),
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.primaryContainer,
                       foregroundColor: AppColors.onPrimary,
                       shape: const StadiumBorder(),
                     ),
+                    child: const Text('Hubungi Kurir'),
                   ),
                 ),
               ),
@@ -833,11 +833,11 @@ class _LacakPengantaranScreenState extends ConsumerState<LacakPengantaranScreen>
                         'Nol makanan terbuang hari ini. #FoodRescue #ZeroWaste',
                       );
                     },
-                    child: const Text('Bagikan Live'),
                     style: OutlinedButton.styleFrom(
                       shape: const StadiumBorder(),
                       side: const BorderSide(color: AppColors.outline),
                     ),
+                    child: const Text('Bagikan Live'),
                   ),
                 ),
               ),

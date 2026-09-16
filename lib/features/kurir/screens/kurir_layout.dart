@@ -115,17 +115,17 @@ class _DashboardKurirScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _metricCard(title: 'Pengantaran hari ini', value: '14', trend: '+3 vs kemarin', accent: AppColors.primary),
+          MetricCard(title: 'Pengantaran hari ini', value: '14', trend: '+3 vs kemarin', accent: AppColors.primary),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _miniStat('Pendapatan', 'Rp 1,2 jt', AppColors.primary)),
+              Expanded(child: MiniStat('Pendapatan', 'Rp 1,2 jt', AppColors.primary)),
               const SizedBox(width: 12),
-              Expanded(child: _miniStat('Waktu rata-rata', '32 menit', AppColors.secondary)),
+              Expanded(child: MiniStat('Waktu rata-rata', '32 menit', AppColors.secondary)),
             ],
           ),
           const SizedBox(height: 18),
-          _panelCard(
+          PanelCard(
             title: 'Jadwal aktif',
             child: const Column(
               children: [
@@ -152,7 +152,7 @@ class _PesananMasukScreen extends StatelessWidget {
         children: [
           Text('Pesanan Masuk', style: AppTheme.headlineMd()),
           const SizedBox(height: 16),
-          _panelCard(
+          PanelCard(
             title: 'Antrean pickup',
             child: const Column(
               children: [
@@ -164,7 +164,11 @@ class _PesananMasukScreen extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           FilledButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Jadwal pickup dikonfirmasi dan masuk ke daftar aktif.')),
+              );
+            },
             icon: const Icon(Icons.check_circle_rounded),
             label: const Text('Konfirmasi jadwal'),
           ),
@@ -185,7 +189,7 @@ class _PesananAktifScreen extends StatelessWidget {
         children: [
           Text('Pesanan Aktif', style: AppTheme.headlineMd()),
           const SizedBox(height: 16),
-          _panelCard(
+          PanelCard(
             title: 'Sedang diantar',
             child: const Column(
               children: [
@@ -212,7 +216,7 @@ class _RiwayatKurirScreen extends StatelessWidget {
         children: [
           Text('Riwayat Pengantaran', style: AppTheme.headlineMd()),
           const SizedBox(height: 16),
-          _panelCard(
+          PanelCard(
             title: 'Minggu ini',
             child: const Column(
               children: [
@@ -270,7 +274,7 @@ class _ProfilKurirScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _panelCard(
+          PanelCard(
             title: 'Status',
             child: const Column(
               children: [
@@ -286,13 +290,13 @@ class _ProfilKurirScreen extends StatelessWidget {
   }
 }
 
-class _metricCard extends StatelessWidget {
+class MetricCard extends StatelessWidget {
   final String title;
   final String value;
   final String trend;
   final Color accent;
 
-  const _metricCard({
+  const MetricCard({super.key, 
     required this.title,
     required this.value,
     required this.trend,
@@ -321,12 +325,12 @@ class _metricCard extends StatelessWidget {
   }
 }
 
-class _miniStat extends StatelessWidget {
+class MiniStat extends StatelessWidget {
   final String title;
   final String value;
   final Color color;
 
-  const _miniStat(this.title, this.value, this.color);
+  const MiniStat(this.title, this.value, this.color, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -348,11 +352,11 @@ class _miniStat extends StatelessWidget {
   }
 }
 
-class _panelCard extends StatelessWidget {
+class PanelCard extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _panelCard({required this.title, required this.child});
+  const PanelCard({super.key, required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {

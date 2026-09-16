@@ -375,7 +375,7 @@ class _FlashBanner extends StatelessWidget {
                     Text(
                       'Harga turun tiap 30 menit',
                       style: AppTheme.bodySm(
-                        color: AppColors.primaryFixed.withOpacity(0.9),
+                        color: AppColors.primaryFixed.withValues(alpha: 0.9),
                       ),
                     ),
                   ],
@@ -412,7 +412,7 @@ class _CountdownCircle extends StatelessWidget {
               value: progress,
               strokeWidth: 4,
               color: Colors.white,
-              backgroundColor: Colors.white.withOpacity(0.2),
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
             ),
           ),
           Column(
@@ -427,7 +427,7 @@ class _CountdownCircle extends StatelessWidget {
               Text(
                 'Sisa',
                 style: AppTheme.labelCaps(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                 ).copyWith(fontSize: 9),
               ),
             ],
@@ -498,7 +498,7 @@ class _ImpactBento extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Spacer(),
-                  Container(
+                  SizedBox(
                     height: 28,
                     child: CustomPaint(
                       size: const Size(double.infinity, 28),
@@ -904,8 +904,8 @@ class _CardImage extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.15),
-                  Colors.black.withOpacity(0.75),
+                  Colors.black.withValues(alpha: 0.15),
+                  Colors.black.withValues(alpha: 0.75),
                 ],
               ),
             ),
@@ -916,7 +916,7 @@ class _CardImage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.surfaceContainerLowest.withOpacity(0.92),
+                color: AppColors.surfaceContainerLowest.withValues(alpha: 0.92),
                 borderRadius: BorderRadius.circular(AppTheme.radiusChip),
               ),
               child: Row(
@@ -968,7 +968,7 @@ class _CardImage extends StatelessWidget {
                 Text(
                   listing.category.toUpperCase(),
                   style: AppTheme.labelCaps(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -993,7 +993,7 @@ class _ImageFallback extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primaryFixed.withOpacity(0.15),
+      color: AppColors.primaryFixed.withValues(alpha: 0.15),
       alignment: Alignment.center,
       child: const Icon(
         Icons.restaurant_menu,
