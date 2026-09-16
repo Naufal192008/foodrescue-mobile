@@ -1,0 +1,69 @@
+name: food_rescue_mobile
+description: "Aplikasi mobile Food Rescue: platform penyelamatan dan donasi surplus makanan."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Routing
+  go_router: ^14.6.2
+
+  # Network
+  dio: ^5.7.0
+
+  # Local storage
+  shared_preferences: ^2.3.4
+  flutter_secure_storage: ^9.2.2
+
+  # Env
+  flutter_dotenv: ^5.2.1
+
+  # UI
+  google_fonts: ^6.2.1
+  cached_network_image: ^3.4.1
+  intl: ^0.19.0
+  share_plus: ^10.1.4
+  # shimmer: ^3.0.0
+  # dotted_border: ^2.1.0
+  # image_picker: ^1.1.2
+  # badges: ^3.1.2
+
+  # Maps & location
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+
+  # Auth
+  # google_sign_in: ^6.2.2
+
+  # AI / OCR
+  # google_mlkit_text_recognition: ^0.13.0
+  # camera: ^0.11.0+2
+
+  # URL launch
+  url_launcher: ^6.3.1
+  image_picker: 1.2.1
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/images/
+    - assets/icons/
