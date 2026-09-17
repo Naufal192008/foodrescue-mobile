@@ -27,7 +27,7 @@ dependencies:
 
   # Env
   flutter_dotenv: ^5.2.1
-  google_sign_in: ^6.2.2
+  google_sign_in: ^7.2.0
 
   # UI
   google_fonts: ^6.2.1
@@ -54,6 +54,8 @@ dependencies:
   url_launcher: ^6.3.1
   image_picker: 1.2.1
   path_provider: ^2.1.5
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'core/router/app_router.dart';
 import 'core/utils/app_theme.dart';
 import 'features/auth/controllers/auth_controller.dart';
@@ -9,7 +9,8 @@ import 'features/auth/controllers/auth_controller.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
-  //lah
+
+await Firebase.initializeApp();  //lah
   runApp(const ProviderScope(child: FoodRescueApp()));
 }
 
